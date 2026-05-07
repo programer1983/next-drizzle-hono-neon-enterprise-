@@ -2,21 +2,38 @@
 
 import { useEffect, useState } from "react";
 
+interface User {
+  id: number;
+  name: string;
+}
+
 export default function Home() {
-  const [message, setMessage] = useState("Loading...");
+  const [loading, setLoading] = useState(true);
+  const [users, setUsers] = useState<User[]>([]);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
-    fetch("/api/hello")
+    fetch("/api/user")
       .then((res) => res.json())
       .then((data) => {
+        setUsers(data.users);
         setMessage(data.message);
         console.log("From Hono: ", data);
+        setLoading(false);
       })
       .catch((err) => {
-        setMessage("Error query");
-        console.log(err);
+        console.log("Error", err);
+        setLoading(false);
       });
   }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen w-full flex items-center justify-center">
+        <h1 className="text-[70px] text-red-500 font-semibold">Loading...</h1>
+      </div>
+    );
+  }
 
   return (
     <div className="">
@@ -28,9 +45,19 @@ export default function Home() {
           <p className="flex items-center justify-center gap-x-[20px]">
             <span className="text-[25px] font-bold">Response status:</span>
             <span className="text-[40px] font-semibold text-green-800">
-              {message}
+              <span>{message}</span>
             </span>
           </p>
+          <ul className="mx-auto">
+            {users.map((user) => (
+              <li key={user.id} className="flex items-center gap-x-[20px]">
+                <span className="text-[30px] font-bold">{user.id}</span>
+                <h2 className="text-[30px] font-semibold text-gray-600">
+                  {user.name}
+                </h2>
+              </li>
+            ))}
+          </ul>
         </div>
       </main>
     </div>
