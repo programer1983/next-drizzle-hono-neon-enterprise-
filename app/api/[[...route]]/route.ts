@@ -1,10 +1,11 @@
 import { Hono } from "hono";
 import { handle } from "hono/vercel";
 import userRouting from "./routes/user.routes";
+import { clerkMiddleware, getAuth } from "@clerk/hono";
 
 const app = new Hono().basePath("/api");
 
-app.route("/user", userRouting);
+app.use("*", clerkMiddleware());
 
 app.get("/", (c) => {
   return c.json({
@@ -17,6 +18,8 @@ app.get("/", (c) => {
     },
   });
 });
+
+app.route("/user", userRouting);
 
 export const GET = handle(app);
 export const POST = handle(app);
