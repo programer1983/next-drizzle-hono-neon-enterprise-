@@ -7,7 +7,10 @@ export const users = pgTable("users", {
   email: text("email").notNull().unique(),
   imageUrl: text("image_url"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at")
+    .notNull()
+    .defaultNow()
+    .$onUpdate(() => new Date()),
 });
 
 export const products = pgTable("products", {
