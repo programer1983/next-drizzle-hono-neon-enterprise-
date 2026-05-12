@@ -1,6 +1,9 @@
 import { relations } from "drizzle-orm";
 import { pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 
+/* ========= SCHEMA ================================================================================== */
+
+// USERS SCHEMA
 export const users = pgTable("users", {
   id: text().primaryKey(),
   name: text("name"),
@@ -13,6 +16,7 @@ export const users = pgTable("users", {
     .$onUpdate(() => new Date()),
 });
 
+// PRODUCTS SCHEMA
 export const products = pgTable("products", {
   id: uuid("id").defaultRandom().primaryKey(),
   title: text("title").notNull(),
@@ -25,6 +29,7 @@ export const products = pgTable("products", {
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
+// COMMENTS SCHEMA
 export const comments = pgTable("comments", {
   id: uuid("id").defaultRandom().primaryKey(),
   content: text("content").notNull(),
@@ -37,16 +42,21 @@ export const comments = pgTable("comments", {
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
+/* ========= RELATIONS ================================================================================== */
+
+// USER RELATIONS
 export const userRelation = relations(users, ({ many }) => ({
   products: many(products),
   comments: many(comments),
 }));
 
+// PRODUCT RELATIONS
 export const productsRelation = relations(products, ({ one, many }) => ({
   comments: many(comments),
   user: one(users, { fields: [products.userId], references: [users.id] }),
 }));
 
+// COMMENT RELATIONS
 export const commentsRelation = relations(comments, ({ one }) => ({
   user: one(users, { fields: [comments.userId], references: [users.id] }),
   product: one(products, {
@@ -54,6 +64,8 @@ export const commentsRelation = relations(comments, ({ one }) => ({
     references: [products.id],
   }),
 }));
+
+/* ========= TYPES ================================================================================== */
 
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;

@@ -9,8 +9,6 @@ import {
   type NewProduct,
 } from "./schema";
 
-
-
 /* =========== USER QUERIES ============================================================================ */
 
 // CREATE USER
@@ -38,14 +36,9 @@ export const updateUser = async (id: string, data: Partial<NewUser>) => {
 // UPSER USER
 export const upsertUser = async (data: NewUser) => {
   const existingUser = await getUserById(data.id);
-
   if (existingUser) return updateUser(data.id, data);
-
   return createUser(data);
 };
-
-
-
 
 /* =========== PRODUCT QUERIES ============================================================================ */
 
@@ -103,4 +96,29 @@ export const deleteProduct = async (id: string) => {
     .where(eq(products.id, id))
     .returning();
   return product;
+};
+
+/* =========== COMENTS QUERIES ============================================================================ */
+
+// CREATE COMMENT
+export const createComment = async (data: NewComment) => {
+  const [comment] = await db.insert(comments).values(data).returning();
+  return comment;
+};
+
+// DELETE COMMENT
+export const deleteComment = async (id: string) => {
+  const [comment] = await db
+    .delete(comments)
+    .where(eq(comments.id, id))
+    .returning();
+  return comment;
+};
+
+// GET COMMENT BY ID
+export const getCommentByID = async (id: string) => {
+  return await db.query.comments.findFirst({
+    where: eq(comments.id, id),
+    with: { user: true },
+  });
 };
