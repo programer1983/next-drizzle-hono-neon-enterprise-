@@ -9,17 +9,22 @@ import {
   type NewProduct,
 } from "./schema";
 
+
+
 /* =========== USER QUERIES ============================================================================ */
 
+// CREATE USER
 export const createUser = async (data: NewUser) => {
   const [user] = await db.insert(users).values(data).returning();
   return user;
 };
 
+// GET USER BY ID
 export const getUserById = async (id: string) => {
   return await db.query.users.findFirst({ where: eq(users.id, id) });
 };
 
+// UPDATE USER
 export const updateUser = async (id: string, data: Partial<NewUser>) => {
   const [user] = await db
     .update(users)
@@ -30,10 +35,72 @@ export const updateUser = async (id: string, data: Partial<NewUser>) => {
   return user;
 };
 
+// UPSER USER
 export const upsertUser = async (data: NewUser) => {
   const existingUser = await getUserById(data.id);
 
   if (existingUser) return updateUser(data.id, data);
 
   return createUser(data);
+};
+
+
+
+
+/* =========== PRODUCT QUERIES ============================================================================ */
+
+// CREATE PRODUCT
+export const createProduct = async (data: NewProduct) => {
+  const [product] = await db.insert(products).values(data).returning();
+  return product;
+};
+
+// GET ALL PRODUCTS
+export const getAllProducts = async () => {
+  return await db.query.products.findMany({
+    with: { user: true },
+    orderBy: (products, { desc }) => [desc(products.createdAt)],
+  });
+};
+
+// GET PRODUCTS BY ID
+export const getProductById = async (id: string) => {
+  return await db.query.products.findFirst({
+    where: eq(products.id, id),
+    with: {
+      user: true,
+      comments: {
+        with: { user: true },
+        orderBy: (comments, { desc }) => [desc(comments.createdAt)],
+      },
+    },
+  });
+};
+
+// GET PRODUCT BY USER
+export const getProductByUserId = async (userId: string) => {
+  return await db.query.products.findMany({
+    where: eq(products.userId, userId),
+    with: { user: true },
+    orderBy: (products, { desc }) => [desc(products.createdAt)],
+  });
+};
+
+// UPDATE PRODUCT
+export const updateProduct = async (id: string, data: Partial<NewProduct>) => {
+  const [product] = await db
+    .update(products)
+    .set(data)
+    .where(eq(products.id, id))
+    .returning();
+  return product;
+};
+
+// DELETE PRODUCT
+export const deleteProduct = async (id: string) => {
+  const [product] = await db
+    .delete(products)
+    .where(eq(products.id, id))
+    .returning();
+  return product;
 };
