@@ -24,6 +24,11 @@ export const getUserById = async (id: string) => {
 
 // UPDATE USER
 export const updateUser = async (id: string, data: Partial<NewUser>) => {
+  const existingUser = await getUserById(id);
+  if (!existingUser) {
+    throw new Error(`User with ${id} not found`);
+  }
+
   const [user] = await db
     .update(users)
     .set(data)
@@ -33,11 +38,21 @@ export const updateUser = async (id: string, data: Partial<NewUser>) => {
   return user;
 };
 
-// UPSER USER
+// UPSERT USER
 export const upsertUser = async (data: NewUser) => {
-  const existingUser = await getUserById(data.id);
-  if (existingUser) return updateUser(data.id, data);
-  return createUser(data);
+  // const existingUser = await getUserById(data.id);
+  // if (existingUser) return updateUser(data.id, data);
+  // return createUser(data);
+
+  const [user] = await db
+    .insert(users)
+    .values(data)
+    .onConflictDoUpdate({
+      target: users.id,
+      set: data,
+    })
+    .returning();
+  return user;
 };
 
 /* =========== PRODUCT QUERIES ============================================================================ */
@@ -81,6 +96,11 @@ export const getProductByUserId = async (userId: string) => {
 
 // UPDATE PRODUCT
 export const updateProduct = async (id: string, data: Partial<NewProduct>) => {
+  const existingProduct = await getProductById(id);
+  if (!existingProduct) {
+    throw new Error(`Product with ${id} not found`);
+  }
+
   const [product] = await db
     .update(products)
     .set(data)
@@ -91,6 +111,11 @@ export const updateProduct = async (id: string, data: Partial<NewProduct>) => {
 
 // DELETE PRODUCT
 export const deleteProduct = async (id: string) => {
+  const existingProduct = await getProductById(id);
+  if (!existingProduct) {
+    throw new Error(`Product with ${id} not found`);
+  }
+
   const [product] = await db
     .delete(products)
     .where(eq(products.id, id))
@@ -108,6 +133,11 @@ export const createComment = async (data: NewComment) => {
 
 // DELETE COMMENT
 export const deleteComment = async (id: string) => {
+  const existingComment = await getCommentByID(id);
+  if (!existingComment) {
+    throw new Error(`Comment with ${id} not found`);
+  }
+
   const [comment] = await db
     .delete(comments)
     .where(eq(comments.id, id))
