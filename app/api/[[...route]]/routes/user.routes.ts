@@ -1,8 +1,8 @@
 import { Hono } from "hono";
-import { getUser } from "../controllers/user.controllers";
+import { syncUser } from "../controllers/user.controllers";
 
 const router = new Hono();
 
-router.get("/", getUser);
+router.post("/sync", syncUser);
 
 export default router;
