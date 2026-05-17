@@ -1,8 +1,9 @@
 import { Hono } from "hono";
-import { getUser } from "../controllers/user.controller";
+import * as commentController from "./../controllers/comment.controller";
 
 const router = new Hono();
 
-// router.get("/", getComment());
+router.get("/:productId", commentController.createComment);
+router.get("/:commentId", commentController.deleteComment);
 
 export default router;
