@@ -3,7 +3,7 @@ import { handle } from "hono/vercel";
 import userRouting from "./routes/user.routes";
 import productRouting from "./routes/product.routes";
 import commentRouting from "./routes/comment.routes";
-import { clerkMiddleware, getAuth } from "@clerk/hono";
+import { clerkMiddleware } from "@clerk/hono";
 
 const app = new Hono().basePath("/api");
 

@@ -1,8 +1,8 @@
 import { Hono } from "hono";
-import { getUser } from "../controllers/user.controllers";
+import * as productController from "../controllers/product.comtroller";
 
 const router = new Hono();
 
-// router.get("/", getProduct());
+router.get("/", productController.getAllProducts);
 
 export default router;
