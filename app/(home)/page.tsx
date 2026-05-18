@@ -1,65 +1,25 @@
-"use client";
-
-import { useEffect, useState } from "react";
-
-interface User {
-  id: number;
-  name: string;
-}
-
 export default function Home() {
-  const [loading, setLoading] = useState(true);
-  const [users, setUsers] = useState<User[]>([]);
-  const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    fetch("/api/user")
-      .then((res) => res.json())
-      .then((data) => {
-        setUsers(data.users);
-        setMessage(data.message);
-        console.log("From Hono: ", data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log("Error", err);
-        setLoading(false);
-      });
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen w-full flex items-center justify-center">
-        <h1 className="text-[70px] text-red-500 font-semibold">Loading...</h1>
-      </div>
-    );
-  }
-
   return (
-    <div className="">
-      <main className="min-h-screen w-full flex justify-center items-center">
-        <div className="flex flex-col gap-y-[100px]">
-          <h1 className="font-bold text-red-600 text-8xl text-center leading-tight">
-            Testing the integration of NextJS and Hono
-          </h1>
-          <p className="flex items-center justify-center gap-x-[20px]">
-            <span className="text-[25px] font-bold">Response status:</span>
-            <span className="text-[40px] font-semibold text-green-800">
-              <span>{message}</span>
-            </span>
+    <div>
+      <div className="card bg-base-100 w-96 shadow-sm">
+        <figure className="px-10 pt-10">
+          <img
+            src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+            alt="Shoes"
+            className="rounded-xl"
+          />
+        </figure>
+        <div className="card-body items-center text-center">
+          <h2 className="card-title">Card Title</h2>
+          <p>
+            A card component has a figure, a body part, and inside body there
+            are title and actions parts
           </p>
-          <ul className="mx-auto">
-            {users.map((user) => (
-              <li key={user.id} className="flex items-center gap-x-[20px]">
-                <span className="text-[30px] font-bold">{user.id}</span>
-                <h2 className="text-[30px] font-semibold text-gray-600">
-                  {user.name}
-                </h2>
-              </li>
-            ))}
-          </ul>
+          <div className="card-actions">
+            <button className="btn btn-primary">Buy Now</button>
+          </div>
         </div>
-      </main>
+      </div>
     </div>
   );
 }
