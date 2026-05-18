@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-
-// const geistSans = Geist({
-//   variable: "--font-geist-sans",
-//   subsets: ["latin"],
-// });
+import { ClerkProvider } from "@clerk/nextjs";
 
 export const metadata: Metadata = {
   title: "Blog Next-Hono With Drizzle",
@@ -18,7 +14,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`h-full antialiased`} data-theme="forest">
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <ClerkProvider>{children}</ClerkProvider>
+      </body>
     </html>
   );
 }
