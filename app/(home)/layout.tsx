@@ -14,7 +14,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`h-full antialiased`} data-theme="forest">
+    <html lang="en" className="full antialiased" suppressHydrationWarning>
+      <head>
+        <script
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{
+            __html: `(function() {
+              try {
+                var theme = localStorage.getItem('theme') || 'forest';
+                document.documentElement.setAttribute('data-theme', theme);
+              } catch(e) {}
+            })();`,
+          }}
+        />
+      </head>
       <body className="min-h-full flex flex-col">
         <ClerkProvider>
           <Navbar />
