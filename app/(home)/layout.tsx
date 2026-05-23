@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import Navbar from "@/components/Navbar";
+import Providers from "@/lib/providers";
 
 export const metadata: Metadata = {
   title: "Blog Next-Hono-Drizzle",
@@ -30,8 +31,10 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col">
         <ClerkProvider>
-          <Navbar />
-          {children}
+          <Providers>
+            <Navbar />
+            {children}
+          </Providers>
         </ClerkProvider>
       </body>
     </html>
