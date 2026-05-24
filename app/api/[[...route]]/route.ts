@@ -3,10 +3,18 @@ import { handle } from "hono/vercel";
 import userRouting from "./routes/user.routes";
 import productRouting from "./routes/product.routes";
 import commentRouting from "./routes/comment.routes";
+import { clerkMiddleware } from "@clerk/hono";
 
 export const dynamic = "force-dynamic";
 
 const app = new Hono().basePath("/api");
+
+app.use(
+  "*",
+  clerkMiddleware({
+    publishableKey: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+  }),
+);
 
 const routes = app
   .route("/users", userRouting)
