@@ -1,7 +1,7 @@
 import { hc } from "hono/client";
 import type { AppType } from "@/app/api/[[...route]]/route";
 
-const client = hc<AppType>("/");
+export const client = hc<AppType>("/");
 
 // =========== USERS API =================================================================================
 export const syncUser = async (userData: Record<string, unknown>) => {
