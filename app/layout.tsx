@@ -30,12 +30,14 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-screen flex flex-col">
         <ClerkProvider>
           <Providers>
             <ClientInitializer>
               <Navbar />
-              {children}
+              <main className="grow w-full max-w-full mx-auto px-4 sm:px-6 lg:px-8">
+                {children}
+              </main>
             </ClientInitializer>
           </Providers>
         </ClerkProvider>
