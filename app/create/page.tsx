@@ -1,5 +1,6 @@
 "use client";
 
+import useAuthReq from "@/hooks/useAuthReq";
 import { useCreateProduct } from "@/hooks/useProducts";
 import {
   ArrowLeftIcon,
@@ -12,6 +13,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function CreateProduct() {
+  const { isSignedIn, isClerkLoaded } = useAuthReq();
   const router = useRouter();
   const createProduct = useCreateProduct();
   const [formData, setFormData] = useState({
@@ -26,6 +28,14 @@ export default function CreateProduct() {
       onSuccess: () => router.push("/"),
     });
   };
+
+  if (!isSignedIn || !isClerkLoaded) {
+    return (
+      <div className="w-full min-h-screen flex items-center justify-center">
+        <span className="loading loading-spinner loading-lg text-primary" />
+      </div>
+    );
+  }
 
   return (
     <div className="w-full min-h-screen pt-4">
