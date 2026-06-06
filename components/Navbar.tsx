@@ -9,7 +9,7 @@ function Navbar() {
   const { isSignedIn } = useAuth();
   return (
     <header className="navbar bg-base-300">
-      <div className="max-w-4xl mx-auto w-full px-4 flex items-center justify-between">
+      <div className="max-w-5xl mx-auto w-full px-4 flex items-center justify-between">
         <div className="flex-1">
           <Link href="/" className="btn btn-ghost gap-2">
             <ShoppingBagIcon className="size-5 text-primary" />

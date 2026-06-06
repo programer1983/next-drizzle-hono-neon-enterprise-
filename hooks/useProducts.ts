@@ -13,8 +13,20 @@ export const useProducts = () => {
   return result;
 };
 
+// export const useCreateProduct = () => {
+//   return useMutation({ mutationFn: createProduct });
+// };
+
 export const useCreateProduct = () => {
-  return useMutation({ mutationFn: createProduct });
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: createProduct,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+      queryClient.invalidateQueries({ queryKey: ["myProducts"] });
+    },
+  });
 };
 
 export const useProduct = (id: string | undefined) => {
@@ -31,6 +43,7 @@ export const useDeleteProduct = () => {
   return useMutation({
     mutationFn: deleteProduct,
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["products"] });
       queryClient.invalidateQueries({ queryKey: ["myProducts"] });
     },
   });
