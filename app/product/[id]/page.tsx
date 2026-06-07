@@ -131,7 +131,11 @@ export default function ProductPage() {
       </div>
       <div className="card bg-base-300">
         <div className="card-body">
-          <CommentSection />
+          <CommentSection
+            productId={id}
+            comments={product.comments}
+            currentUserId={userId}
+          />
         </div>
       </div>
     </div>

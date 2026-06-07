@@ -14,12 +14,12 @@ interface DeleteCommentInput {
 }
 
 const createCommentApi = async (data: CreateCommentInput) => {
-  const response = await fetch("/api/comments", {
+  const response = await fetch(`/api/comments/${data.productId}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify({ content: data.content }),
   });
 
   if (!response.ok) {
@@ -29,7 +29,7 @@ const createCommentApi = async (data: CreateCommentInput) => {
   return response.json();
 };
 
-const deleteCommentApi = async (commentId: DeleteCommentInput) => {
+const deleteCommentApi = async ({ commentId }: DeleteCommentInput) => {
   const response = await fetch(`/api/comments/${commentId}`, {
     method: "DELETE",
   });
