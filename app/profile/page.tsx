@@ -35,7 +35,7 @@ const ProfilePage = () => {
   }
 
   return (
-    <div className="space-y-6 max-w-5xl mx-auto lg:pt-20">
+    <div className="space-y-6 max-w-5xl mx-auto pt-8 pb-6 lg:pb-20 lg:pt-20">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">My Product</h1>
