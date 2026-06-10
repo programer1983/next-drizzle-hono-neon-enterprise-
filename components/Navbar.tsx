@@ -13,7 +13,7 @@ function Navbar() {
         <div className="flex-1">
           <Link href="/" className="btn btn-ghost gap-2">
             <ShoppingBagIcon className="size-5 text-primary" />
-            <span className="text-lg font-bold font-mono uppercase tracking-wider">
+            <span className="[@media(max-width:400px)]:hidden sm:block  text-lg font-bold font-mono uppercase tracking-wider">
               Productify
             </span>
           </Link>

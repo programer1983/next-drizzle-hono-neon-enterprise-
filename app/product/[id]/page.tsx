@@ -48,7 +48,7 @@ export default function ProductPage() {
   const isOwner = userId === product.userId;
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6 lg:pt-12.5">
+    <div className="max-w-4xl mx-auto space-y-6 pb-6 lg:pt-12.5">
       <div className="flex items-center justify-between">
         <Link href="/" className="btn btn-ghost btn-sm gap-1 mb-4">
           <ArrowLeftIcon className="size-4" /> Back

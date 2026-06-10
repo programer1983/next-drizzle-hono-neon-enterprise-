@@ -38,7 +38,7 @@ export const EditProductForm = ({
     imageUrl: product.imageUrl,
   });
   return (
-    <div className="max-w-lg mx-auto pt-8 pb-6 lg:pb-20 lg:pt-20">
+    <div className="max-w-lg mx-auto pt-5 pb-5 lg:pb-10 lg:pt-10">
       <Link href="/profile" className="btn btn-ghost btn-sm gap-1 mb-4">
         <ArrowLeftIcon className="size-4" /> Back
       </Link>

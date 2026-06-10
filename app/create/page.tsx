@@ -38,7 +38,7 @@ export default function CreateProduct() {
   }
 
   return (
-    <div className="w-full min-h-screen pt-4">
+    <div className="w-full min-h-screen pb-6 pt-8">
       <div className="w-full md:w-125 mx-auto">
         <Link href="/" className="btn btn-ghost btn-sm gap-1 mb-4">
           <ArrowLeftIcon className="size-4" /> Left
