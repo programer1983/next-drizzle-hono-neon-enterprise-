@@ -50,6 +50,9 @@ export const useCreateComment = () => {
       queryClient.invalidateQueries({
         queryKey: ["product", variables.productId],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["products"],
+      });
     },
   });
 };
