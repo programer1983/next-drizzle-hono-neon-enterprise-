@@ -35,6 +35,21 @@ export const createProduct = async (productData: Record<string, unknown>) => {
   return res.json();
 };
 
+// export const updateProduct = async ({
+//   id,
+//   ...productData
+// }: {
+//   id: string;
+//   [key: string]: unknown;
+// }) => {
+//   const res = await client.api.products[":id"].$put({
+//     param: { id },
+//     json: productData,
+//   });
+//   if (!res.ok) throw new Error("Product update error");
+//   return res.json();
+// };
+
 export const updateProduct = async ({
   id,
   ...productData
@@ -42,10 +57,14 @@ export const updateProduct = async ({
   id: string;
   [key: string]: unknown;
 }) => {
+  type PutArgs = Parameters<(typeof client.api.products)[":id"]["$put"]>[0];
+  type PermissivePutArgs = PutArgs & { json: Record<string, unknown> };
+
   const res = await client.api.products[":id"].$put({
     param: { id },
     json: productData,
-  });
+  } as PermissivePutArgs);
+
   if (!res.ok) throw new Error("Product update error");
   return res.json();
 };
@@ -58,7 +77,7 @@ export const deleteProduct = async (id: string) => {
 
 // ===========  COMMENTS API =================================================================================
 export const createComment = async ({ productId }: { productId: string }) => {
-  const res = await client.api.comments[":productId"].$get({
+  const res = await client.api.comments[":productId"].$post({
     param: { productId },
   });
   if (!res.ok) throw new Error("Error creating comment");
